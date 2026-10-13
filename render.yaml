@@ -8,8 +8,8 @@ services:
     startCommand: python bot.py
     envVars:
       - key: BOT_TOKEN
-        sync: false
+        sync: 8871451715:AAHwRVL43ZDZqOnKKqxNPTgsqNr3oPhMS34
       - key: SPREADSHEET_ID
         value: 1rg2JJr3QK_mPcB1SP96HZ64EDSf7oup1xYAEpfwUcN8
       - key: CACHE_TTL_SECONDS
-        value: "300"
+        value: "1800"
