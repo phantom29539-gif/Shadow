@@ -13,7 +13,7 @@ class Settings:
 
     SPREADSHEET_ID: str = os.getenv(
         "SPREADSHEET_ID",
-        "",
+        "1rg2JJr3QK_mPcB1SP96HZ64EDSf7oup1xYAEpfwUcN8",
     )
 
     CACHE_TTL_SECONDS: int = int(os.getenv("CACHE_TTL_SECONDS", "300"))

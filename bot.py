@@ -2,7 +2,9 @@ from __future__ import annotations
 
 import asyncio
 import logging
+import os
 import re
+import threading
 
 from aiogram import Bot, Dispatcher, F
 from aiogram.client.default import DefaultBotProperties
@@ -289,6 +291,23 @@ async def fallback(message: Message):
     )
 
 
+def _health_server() -> None:
+    from http.server import BaseHTTPRequestHandler, HTTPServer
+
+    class Handler(BaseHTTPRequestHandler):
+        def do_GET(self) -> None:
+            self.send_response(200)
+            self.send_header("Content-Type", "text/plain")
+            self.end_headers()
+            self.wfile.write(b"ok")
+
+        def log_message(self, format, *args) -> None:
+            pass
+
+    port = int(os.environ.get("PORT", "10000"))
+    HTTPServer(("0.0.0.0", port), Handler).serve_forever()
+
+
 def main() -> None:
     if not settings.BOT_TOKEN:
         raise SystemExit(
@@ -296,6 +315,7 @@ def main() -> None:
             "переменную окружения BOT_TOKEN либо впишите его в config.py."
         )
     log.info("Запускаю бота...")
+    threading.Thread(target=_health_server, daemon=True).start()
     dp.run_polling(bot)
 
 
